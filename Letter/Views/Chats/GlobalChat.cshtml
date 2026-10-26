@@ -1,0 +1,80 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    ViewData["Title"] = "Global Chat";
+}
+<link rel="stylesheet" href="~/css/message.css" />
+<link rel="stylesheet" href="~/css/chat.css" />
+<section class="main-section">
+    <div>
+        <input type="text" id="userInput" placeholder="Введите ваше имя" />
+        <input type="text" id="messageInput" placeholder="Введите сообщение" />
+        <input type="button" id="sendAll" value="отправить" />
+    </div>
+    <br/>
+    <div id="messages">
+    </div>
+</section>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/6.0.1/signalr.js"></script>
+<script @*src="~/js/chathubmessages.js"*@>
+    const connection = new signalR.HubConnectionBuilder()
+        .withUrl("/chathub")
+        .configureLogging(signalR.LogLevel.Information)
+        .build();
+
+    connection.start().catch(function (err) {
+        return console.error(err.toString())
+    });
+
+    connection.on("ReceiveMessageToAll", function (user, message, data) {
+
+        let msg = message.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+
+        dt = new Date(data);
+
+        let newMessage = CreateMessage(user, msg, dt);
+
+        document.getElementById("messages").prepend(newMessage);
+
+    });
+
+
+    document.getElementById("sendAll").addEventListener("click", function (event) {
+        let user = document.getElementById("userInput").value.trim();
+        let message = document.getElementById("messageInput").value.trim();
+
+        let data = new Date();
+        if (message != ""&&user!="") {
+            connection.invoke("SendMessageAll", user, message, data.toString()).catch(function (err) { return console.error(err.toString()) });
+        } event.preventDefault();
+    });
+
+
+
+
+    function CreateMessage(user, message, date) {
+        let newMessage = document.createElement("span");
+
+        let msg = document.createElement("div");
+        msg.classList.add("user-group-message");
+
+        let name = document.createElement("span");
+        name.classList.add("user-group-message-name");
+        name.innerHTML = "<b>" + user + "</b>";
+
+        let time = document.createElement("span");
+        time.classList.add("user-group-message-time");
+        time.innerText = date.getHours().toString() + ":" + date.getMinutes().toString();
+
+        let text = document.createElement("span");
+        text.classList.add("user-group-message-text");
+        text.innerText = message;
+        msg.append(name, time, text);
+        newMessage.append(msg);
+
+        return newMessage;
+
+    }
+</script>

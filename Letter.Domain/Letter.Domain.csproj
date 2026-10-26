@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.Drawing.Common" Version="8.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="RegexCheckLibrary">
+      <HintPath>..\..\..\Библиотеки\Проверка строки по шаблону Regex\RegexCheckLibrary\RegexCheckLibrary\bin\Debug\RegexCheckLibrary.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>

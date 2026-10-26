@@ -1,0 +1,21 @@
+﻿@using Letter.Domain.ViewModels;
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@model NewPrivateChatViewModel
+
+<link href="~/css/simpleform.css" rel="stylesheet" />
+<section class="main-section">
+    <div class="br-class" id="brdiv">
+    </div>
+    <form class="reg-form" asp-controller="PrivateChats" asp-action="CreateNewPrivateChat" asp-area="">
+
+        <label asp-for="Email">Email</label>
+        <input asp-for="Email" type="email" />
+        <span class="error-span" asp-validation-for="Email"></span>
+
+        <button id="submit-bt" type="submit">Написать</button>
+    </form>
+</section>

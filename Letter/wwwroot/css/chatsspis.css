@@ -1,0 +1,43 @@
+﻿
+.groop-a {
+    max-width: 200px;
+    min-height: 30px;
+    display: grid;
+    gap: 5px;
+    grid-template-columns: auto auto;
+    border-radius: 7px;
+    border: .01cm solid #252422;
+    padding: 2px;
+    align-items: center;
+    background-color: #d2d0bd;
+    color: #252422;
+    text-decoration: none;
+    transition:0.7s all;
+}
+    .groop-a:hover {
+        text-decoration: none;
+        color: #0a0a0a;
+        background-color: #a5a494;
+    }
+    .groop-div {
+        max-width: 200px;
+        min-height: 30px;
+        max-height: 70px;
+    }
+.groop-last-message {
+    max-height:50px;
+    max-width:200px;
+    color: #252422;
+    overflow: hidden;
+    column-span:all;
+}
+.chats-div {
+    max-height: 470px;
+    overflow: hidden;
+    overflow-y: scroll;
+}
+.new-chat {
+    width: 50px;
+    height: 50px;
+    background-image: url("../Images/icons8-плюс-2-50.png");
+}
