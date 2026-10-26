@@ -1,0 +1,37 @@
+﻿.user-group-message {
+    max-width: 250px;
+    min-width: 100px;
+    padding: 5px;
+    display: grid;
+    gap: 5px;
+    grid-template-columns: 100px 50px;
+    columns: 2;
+    overflow: hidden;
+    border-radius: 5px;
+    border: 1px solid #252422;
+    background-color: #252422;
+    color: #d2d0bd;
+    margin: 10px;
+}
+
+.user-group-system-message {
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+.user-group-message-name {
+    max-width: 100px;
+    overflow: hidden;
+    align-self: center;
+    font-size: 0.9em;
+}
+
+.user-group-message-time {
+    font-size: 0.7em;
+    align-self: center;
+}
+
+.user-group-message-text {
+    grid-column: span 2;
+}

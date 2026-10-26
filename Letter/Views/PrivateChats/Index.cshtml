@@ -1,0 +1,203 @@
+﻿@using Letter.Domain.Entities
+@using Letter.Domain.ViewModels
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@model (List<PrivateChat>, PrivateChatInfoViewModel, List<PrivateChatMessage>)
+
+<link rel="stylesheet" href="~/css/chat.css"/>
+<link rel="stylesheet" href="~/css/chatsspis.css"/>
+<link rel="stylesheet" href="~/css/message.css"/>
+
+<section class="main-section">
+    <div class="private-chat-spis">
+        @if (Model.Item1!=null&&Model.Item1.Count>0)
+        {
+            @for (int i = 0; i < Model.Item1.Count; i++)
+            {
+                <div class="groop-div">
+                    <a class="groop-a" asp-controller="PrivateChats" asp-action="SelectChat" asp-route-id="@Model.Item1[i].Id">
+                        <div class="groop-name">@Model.Item1[i].Name</div>
+                        <br />
+                        @if (Model.Item1[i].LastMessage != "")
+                        {
+                            <p class="groop-last-message">@Model.Item1[i].LastMessage</p>
+                        }
+
+                    </a>
+                </div>
+            }
+            
+        }
+        <div>
+            <a asp-controller="PrivateChats" asp-action="NewChat">Написать</a>
+        </div>
+    </div>
+
+    @if (Model.Item2.Id != 0)
+    {
+        @if (Model.Item2.MyUserName != null)
+        {
+            <span id="usernamespan" style="display:none">@Model.Item2.MyUserName?.ToString()</span>
+            <span id="chatidspan" style="display:none">@Model.Item2.Id.ToString()</span>
+            <span id="chatnamespan" style="display:none">@Model.Item2.Name?.ToString()</span>
+            <div class="messages-div">
+                <br />
+                <div>
+                    <div id="messages">
+                        @if (Model.Item3.Count > 0)
+                        {
+                            @for (int i = 0; i < Model.Item3.Count; i++)
+                            {
+                                <div class="user-group-message">
+                                    @*<span class="user-group-message-name"><b>@Model.Item3[i].UserName</b></span>*@
+                                    <span class="user-group-message-text">@Model.Item3[i].MessageText</span>
+                                    <span class="user-group-message-time">@Model.Item3[i].DataTime</span>
+                                </div>
+                            }
+                        }
+                    </div>
+                    <br>
+                    <div>
+                        <input type="text" id="messageInput" placeholder="Введите сообщение" />
+                        <input type="button" id="sendPrivateChat" value="отправить" />
+                    </div>
+                </div>
+
+            </div>
+
+        }
+    }
+    
+</section>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/6.0.1/signalr.js"></script>
+<script @*src="~/js/chathubmessages.js"*@>
+    const connection = new signalR.HubConnectionBuilder()
+        .withUrl("/chathub")
+        .configureLogging(signalR.LogLevel.Information)
+        .build();
+
+    connection.start().catch(function (err) {
+        return console.error(err.toString())
+    });
+
+    connection.on("ReceiveMessagePrivateChat", function (message, user, data) {
+
+        let msg = message.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+
+        dt = new Date(data);
+
+        let newMessage = CreateMessage(user, msg, dt);
+
+        document.getElementById("messages").append(newMessage);
+        let messagescount = @Model.Item3.Count;
+
+        document.getElementById("messages").scrollBy({
+            top: 1000 * messagescount,
+            left: 0,
+            behavior: 'smooth'
+        });
+    });
+
+    connection.on("ReceiveSystemMessagePrivateChat", function (message, user, data) {
+
+        let msg = message.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+
+        dt = new Date(data);
+
+        let newMessage = CreateSystemMessage(user, msg, dt);
+
+        document.getElementById("messages").append(newMessage);
+        let messagescount = @Model.Item3.Count;
+
+        document.getElementById("messages").scrollBy({
+            top: 1000 * messagescount,
+            left: 0,
+            behavior: 'smooth'
+        });
+
+    });
+
+
+    document.getElementById("sendPrivateChat").addEventListener("click", function (event) {
+
+        let groopName = document.getElementById("chatnamespan").textContent;
+        let user = document.getElementById("usernamespan").textContent;
+        let id = document.getElementById("chatidspan").textContent;
+
+        let message = document.getElementById("messageInput").value.trim();
+
+        let data = new Date();
+        if (message != "") {
+            connection.invoke("SendMessagePrivateChat", groopName, user, message, data.toString(), parseInt(id));
+        }
+        document.getElementById("messageInput").value = "";
+        event.preventDefault();
+    });
+
+
+
+
+    function CreateMessage(user, message, date) {
+        let newMessage = document.createElement("span");
+
+        let msg = document.createElement("div");
+        msg.classList.add("user-group-message");
+
+
+        let name = document.createElement("span");
+        name.classList.add("user-group-message-name");
+        name.innerHTML = "<b>" + user + "</b>";
+
+        let time = document.createElement("span");
+        time.classList.add("user-group-message-time");
+        time.innerText = date.getHours().toString() + ":" + date.getMinutes().toString();
+
+        let text = document.createElement("span");
+        text.classList.add("user-group-message-text");
+        text.innerText = message;
+
+        msg.append(name, time, text);
+        newMessage.append(msg);
+
+        return newMessage;
+
+    }
+
+    function CreateSystemMessage(user, message, date) {
+        let newMessage = document.createElement("span");
+
+        let msg = document.createElement("div");
+        msg.classList.add("user-group-system-message");
+        msg.style.display = "flex";
+        msg.style.justifyContent = "center";
+
+        let text = document.createElement("span");
+        text.classList.add("user-group-system-message-text");
+        text.innerHTML = "<b>" + message + "<b>";
+
+        msg.append(text);
+        newMessage.append(msg);
+
+        return newMessage;
+
+    }
+
+    async function start() {
+        try {
+            data = new Date();
+            await connection.invoke(
+                "AddUserInPrivateChat",
+                document.getElementById("usernamespan").textContent,
+            );
+            console.log("User Connected.");
+        } catch (err) {
+            console.log(err);
+            setTimeout(start, 1000);
+        }
+    };
+    start();
+</script>

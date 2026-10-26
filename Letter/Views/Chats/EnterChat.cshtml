@@ -1,0 +1,22 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    ViewData["Title"] = "Enter Chat";
+}
+@model string
+
+<link href="~/css/simpleform.css" rel="stylesheet" />
+<section class="main-section">
+<div class="br-class" id="brdiv">
+</div>
+<form class="reg-form" asp-controller="Chats" asp-action="EnterByCode" asp-area="">
+
+    <label name="code">Код чата</label>
+    <input type="text" name="code" />
+    <span class="error-span" ></span>
+
+    <button id="submit-bt" type="submit">Войти</button>
+    <a class="form-a" asp-controller="Chats" asp-action="NewChat">Создать чат</a>
+</form>
+</section>

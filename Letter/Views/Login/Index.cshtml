@@ -1,0 +1,41 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    ViewData["Title"] = "Create Account";
+}
+@model UserViewModel
+<link href="~/css/simpleform.css" rel="stylesheet" />
+<section class="main-section">
+    <div class="br-class" id="brdiv">
+    </div>
+    <form class="reg-form" asp-controller="Login" asp-action="CreateNewUser" asp-area="">
+        <label asp-for="Name">Логин</label>
+        <input asp-for="Name" type="text" />
+        <span class="error-span" asp-validation-for="Name"></span>
+
+        <label asp-for="Email">Email</label>
+        <input asp-for="Email" type="email" />
+        <span class="error-span" asp-validation-for="Email"></span>
+
+        <label asp-for="BornDate">Дата рождения</label>
+        <input asp-for="BornDate" type="date" value="2024-01-01" />
+        <span class="error-span" asp-validation-for="BornDate"></span>
+
+        <label asp-for="Location">Локация</label>
+        <input asp-for="Location" type="text">
+        <span class="error-span" asp-validation-for="Location"></span>
+
+        <label asp-for="Password">Пароль</label>
+        <input asp-for="Password" type="password" />
+        <span class="error-span" asp-validation-for="Password"></span>
+
+        <label asp-for="SecondPass">Повторите пароль</label>
+        <input asp-for="SecondPass" type="password" />
+        <span class="error-span" asp-validation-for="SecondPass"></span>
+
+        <button id="submit-bt" type="submit">Зарегистрироваться</button>
+        <a class="form-a" asp-controller="Login" asp-action="Log">Войти</a>
+    </form>
+</section>
+<script src="~/js/loginforms.js"></script>

@@ -1,0 +1,15 @@
+﻿@using Letter.Domain.Entities
+@{
+    ViewData["Title"] = "Home Page";
+}
+@model User
+
+@if (Model != null)
+{
+    <section class="main-section">
+        <h3 style="color:#d2d0bd">@Model.Login</h3>
+        <h3 style="color:#d2d0bd">@Model.BornDate</h3>
+        <h3 style="color:#d2d0bd">@Model.Location</h3>
+
+    </section>
+}

@@ -1,0 +1,31 @@
+﻿.main-section {
+    padding: 10px;
+    display: grid;
+    grid-template-columns: 200px 800px;
+    gap: 10px;
+}
+
+#messages {
+    min-height: 300px;
+    max-height: 400px;
+    overflow: hidden;
+    overflow-y: scroll;
+    background-color: #d2d0bd;
+    border-radius: 7px;
+}
+#userInput,
+#messageInput {
+    min-width: 500px;
+    max-width: 700px;
+    background-color: #d2d0bd;
+    border: none;
+    border-bottom: 1px solid #252422;
+    color: #252422;
+    border-radius: 5px;
+    transition: 0.3s all;
+    outline: none;
+}
+    #userInput:hover,
+    #messageInput:hover {
+        background-color: #b4b2a2;
+    }

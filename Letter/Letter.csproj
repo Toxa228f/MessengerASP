@@ -1,0 +1,36 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+	<PropertyGroup>
+		<TargetFramework>net5.0</TargetFramework>
+		<UserSecretsId>41a10589-e895-4a64-98de-cdfb01cf847c</UserSecretsId>
+		<DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+		<DockerComposeProjectPath>..\docker-compose.dcproj</DockerComposeProjectPath>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Microsoft.AspNetCore.SignalR.Core" Version="1.1.0" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.5" />
+		<PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.19.6" />
+		<PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="5.0.0" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\Letter.Dal\Letter.Dal.csproj" />
+		<ProjectReference Include="..\Letter.Domain\Letter.Domain.csproj" />
+		<ProjectReference Include="..\Letter.Service\Letter.Service.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Reference Include="RegexCheckLibrary">
+			<HintPath>..\..\..\Библиотеки\Проверка строки по шаблону Regex\RegexCheckLibrary\RegexCheckLibrary\bin\Debug\RegexCheckLibrary.dll</HintPath>
+		</Reference>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Content Update="wwwroot\css\chatsspis.css">
+	    <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+	    <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+	  </Content>
+	</ItemGroup>
+
+</Project>
